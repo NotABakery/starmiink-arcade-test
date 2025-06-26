@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>STARMIINK Arcade</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -30,7 +31,9 @@
     }
 
     .logo-placeholder {
-      width: 500px;
+      width: 30vw;
+      max-width: 300px;
+      min-width: 120px;
       height: auto;
       animation: spin 4s linear infinite;
     }
@@ -46,6 +49,9 @@
       text-shadow: 0 0 10px #00ffff, 0 0 20px #0000ff;
       animation: arcade-blink 1.2s infinite alternate;
       cursor: pointer;
+      padding: 12px;
+      display: inline-block;
+      touch-action: manipulation;
     }
 
     .tap-to-start {
@@ -90,6 +96,30 @@
     @keyframes glowLine {
       0% { background-position: 0 0; }
       100% { background-position: 200% 0; }
+    }
+
+    .loading-bar-container {
+      width: 60%;
+      max-width: 300px;
+      height: 10px;
+      border: 1px solid #00ffff;
+      border-radius: 5px;
+      margin-top: 30px;
+      background-color: #000033;
+      overflow: hidden;
+      box-shadow: 0 0 10px #00ffff50;
+    }
+
+    .loading-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(to right, #00ffff, #0000ff);
+      animation: loadBar 2.5s ease-out forwards;
+    }
+
+    @keyframes loadBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
     }
 
     #store {
@@ -144,7 +174,7 @@
 </head>
 <body>
 
-  <!-- Insert Coin / Start Screen -->
+  <!-- Start Screen -->
   <div id="insert-screen">
     <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
     <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
@@ -157,6 +187,9 @@
     <p>Loading MIINK archives...</p>
     <p>Decrypting data...</p>
     <p>Rendering pixel core UI...</p>
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
+    </div>
   </div>
 
   <!-- Store -->
@@ -180,30 +213,40 @@
   <!-- Music Toggle -->
   <button id="music-toggle">🎵 MUSIC: OFF</button>
 
-  <!-- Audio Files -->
+  <!-- Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
   <audio id="clickSound" src="click.mp3"></audio>
   <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
 
-  <!-- JavaScript Logic -->
+  <!-- Script -->
   <script>
     const bootSound = document.getElementById("bootSound");
     const clickSound = document.getElementById("clickSound");
     const bgMusic = document.getElementById("bgMusic");
     const musicToggle = document.getElementById("music-toggle");
     const startBtn = document.getElementById("startBtn");
+    const insertScreen = document.getElementById("insert-screen");
+    const bootup = document.getElementById("bootup");
+    const store = document.getElementById("store");
 
     let musicOn = false;
 
-    startBtn.addEventListener("click", () => {
-      document.getElementById("insert-screen").style.display = "none";
-      document.getElementById("bootup").style.display = "flex";
+    function startGame() {
+      insertScreen.style.display = "none";
+      bootup.style.display = "flex";
       bootSound.play();
 
+      // Show store after boot sequence
       setTimeout(() => {
-        document.getElementById("bootup").style.display = "none";
-        document.getElementById("store").style.display = "block";
+        bootup.style.display = "none";
+        store.style.display = "block";
       }, 3000);
+    }
+
+    startBtn.addEventListener("click", startGame);
+    startBtn.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      startGame();
     });
 
     musicToggle.addEventListener("click", () => {
