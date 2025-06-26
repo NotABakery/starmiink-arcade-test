@@ -31,10 +31,9 @@
     }
 
     .logo-placeholder {
-  width: 200px;       /* Fixed size */
-  height: auto;
-}
-
+      width: 200px;
+      height: auto;
+    }
 
     .arcade-start {
       font-size: 18px;
@@ -157,6 +156,50 @@
       z-index: 9999;
     }
 
+    #cart-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #000;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 10px;
+      font-size: 12px;
+      z-index: 9999;
+      cursor: pointer;
+    }
+
+    #cart-overlay {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 250px;
+      background: #000033;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 20px;
+      display: none;
+      z-index: 9999;
+      font-size: 12px;
+    }
+
+    #cart-overlay ul {
+      list-style: none;
+      padding: 0;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    #cart-overlay button {
+      background: #00ffff;
+      color: #000;
+      border: none;
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      cursor: pointer;
+    }
+
     @media (max-width: 768px) {
       .product-grid { flex-direction: column; gap: 20px; }
       .product { width: 80%; height: auto; }
@@ -190,7 +233,7 @@
       <div class="product" onclick="playClick(); alert('LOCKED.')">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Character_silhouette_1.svg/256px-Character_silhouette_1.svg.png" style="width:80%; opacity:0.5;" />
       </div>
-      <div class="product" onclick="playClick(); alert('DROP ADDED TO CART!')">
+      <div class="product" onclick="playClick(); addToCart('Invader Drop')">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Space_Invader.svg/256px-Space_Invader.svg.png" style="width:80%;" />
       </div>
     </div>
@@ -203,6 +246,16 @@
 
   <!-- Music Toggle -->
   <button id="music-toggle">🎵 MUSIC: OFF</button>
+
+  <!-- Cart Icon -->
+  <div id="cart-icon" onclick="toggleCart()">🛒 CART (<span id="cart-count">0</span>)</div>
+
+  <!-- Cart Overlay -->
+  <div id="cart-overlay">
+    <h3>🛍️ Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <button onclick="checkout()">Checkout</button>
+  </div>
 
   <!-- Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
@@ -221,13 +274,13 @@
     const store = document.getElementById("store");
 
     let musicOn = false;
+    let cart = [];
 
     function startGame() {
       insertScreen.style.display = "none";
       bootup.style.display = "flex";
       bootSound.play();
 
-      // Show store after boot sequence
       setTimeout(() => {
         bootup.style.display = "none";
         store.style.display = "block";
@@ -255,8 +308,32 @@
       clickSound.currentTime = 0;
       clickSound.play();
     }
-  </script>
 
+    function toggleCart() {
+      const overlay = document.getElementById('cart-overlay');
+      overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addToCart(itemName) {
+      cart.push(itemName);
+      document.getElementById('cart-count').innerText = cart.length;
+      updateCartItems();
+    }
+
+    function updateCartItems() {
+      const cartList = document.getElementById('cart-items');
+      cartList.innerHTML = '';
+      cart.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        cartList.appendChild(li);
+      });
+    }
+
+    function checkout() {
+      alert("Checkout system coming soon!");
+    }
+  </script>
 </body>
 </html>
 
