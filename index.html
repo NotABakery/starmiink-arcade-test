@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STARMIINK Arcade</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background: radial-gradient(circle at top, #1c1c1c, #000);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    #insert-coin {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    #coin {
+      width: 60px;
+      animation: none;
+      cursor: pointer;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .coin-slot {
+      width: 80px;
+      height: 10px;
+      background: #34ffcc;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #34ffcc;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    @keyframes dropCoin {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100px); opacity: 0; }
+    }
+
+    #bootup {
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 16px;
+      color: #34ffcc;
+      animation: fadeout 3s forwards;
+      animation-delay: 2.8s;
+    }
+
+    @keyframes fadeout {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    #store {
+      display: none;
+      padding: 40px;
+      padding-bottom: 80px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #141414, #000);
+      color: #fff;
+    }
+
+    .store-header {
+      font-size: 18px;
+      color: #34ffcc;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+    }
+
+    .product-grid {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .product {
+      width: 130px;
+      height: 160px;
+      background: #101010;
+      border: 2px solid #34ffcc;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: idleWobble 2.5s ease-in-out infinite;
+    }
+
+    .product:hover {
+      transform: scale(1.08) rotate(-1deg);
+    }
+
+    @keyframes idleWobble {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(0.8deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-0.8deg); }
+    }
+
+    .product img {
+      width: 80%;
+      height: auto;
+      filter: grayscale(90%) brightness(0.8);
+      image-rendering: pixelated;
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+
+    .product.unlocked img {
+      filter: none;
+      opacity: 1;
+    }
+
+    .locked-label {
+      position: absolute;
+      bottom: 10px;
+      background: #34ffcc;
+      color: #000;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px #34ffcc;
+    }
+
+    .product.unlocked .locked-label {
+      display: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: white;
+      box-shadow: 0 0 8px 2px #34ffcc;
+      border-radius: 50%;
+      animation: sparkle 1.6s infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: scale(1); opacity: 0; }
+      50% { transform: scale(1.6); opacity: 0.8; }
+    }
+
+    .product:hover .sparkle {
+      opacity: 1;
+    }
+
+    .sparkle.one { top: 10px; left: 20px; animation-delay: 0s; }
+    .sparkle.two { top: 50%; left: 10px; animation-delay: 1s; }
+    .sparkle.three { bottom: 10px; right: 20px; animation-delay: 0.5s; }
+
+    #music-toggle {
+      position: fixed;
+      bottom: 50px;
+      right: 20px;
+      background: #000;
+      color: #34ffcc;
+      border: 2px solid #34ffcc;
+      padding: 5px 10px;
+      font-size: 10px;
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    #footer {
+      width: 100%;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      font-size: 9px;
+      font-family: 'Press Start 2P', monospace;
+      color: #34ffcc;
+      background: #000;
+      padding: 10px 0;
+      border-top: 1px solid #222;
+      z-index: 999;
+      letter-spacing: 0.5px;
+    }
+
+    .brand {
+      color: #fff;
+      text-shadow: 0 0 5px #34ffcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="insert-coin">
+    <div class="coin-slot"></div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/1_US_dollar_coin_reverse_2007.png/200px-1_US_dollar_coin_reverse_2007.png" id="coin" alt="coin" />
+  </div>
+
+  <div id="bootup">
+    <h1>★ STARMIINK BOOTING ★</h1>
+    <p>System boot sequence... </p>
+    <p>Loading Harlem archives...</p>
+    <p>Initializing drops...</p>
+  </div>
+
+  <div id="store">
+    <div class="store-header">SELECT YOUR DROP:</div>
+    <div class="product-grid">
+      <div class="product" onclick="playClick(); alert('LOCKED.')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Character_silhouette_1.svg/256px-Character_silhouette_1.svg.png" />
+        <div class="locked-label">LOCKED</div>
+        <div class="sparkle one"></div>
+        <div class="sparkle two"></div>
+      </div>
+      <div class="product unlocked" onclick="playClick(); alert('DROP ADDED TO CART!')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Space_Invader.svg/256px-Space_Invader.svg.png" />
+        <div class="sparkle three"></div>
+      </div>
+      <div class="product" onclick="playClick(); alert('COMING SOON')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Character_silhouette_1.svg/256px-Character_silhouette_1.svg.png" />
+        <div class="locked-label">LOCKED</div>
+        <div class="sparkle one"></div>
+        <div class="sparkle two"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer">
+    © 2003–2025 <span class="brand">STARMIINK™</span> · All Rights Preserved
+  </footer>
+
+  <button id="music-toggle">🎵 MUSIC: OFF</button>
+
+  <audio id="bootSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_a8cc93d1ff.mp3?filename=arcade-magic-110533.mp3"></audio>
+  <audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/10/28/audio_cb70b2c239.mp3?filename=game-jump-153689.mp3"></audio>
+  <audio id="coinSound" src="https://cdn.pixabay.com/download/audio/2023/02/08/audio_6b007373c7.mp3?filename=coin-drop-into-slot-135911.mp3"></audio>
+  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/11/30/audio_b5100b90f1.mp3?filename=lofi-arcade-126334.mp3" loop></audio>
+
+  <script>
+    const bootSound = document.getElementById("bootSound");
+    const clickSound = document.getElementById("clickSound");
+    const coinSound = document.getElementById("coinSound");
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("music-toggle");
+    let musicOn = false;
+
+    function playClick() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
+    musicToggle.addEventListener("click", () => {
+      musicOn = !musicOn;
+      if (musicOn) {
+        bgMusic.play();
+        musicToggle.innerText = "🎵 MUSIC: ON";
+      } else {
+        bgMusic.pause();
+        musicToggle.innerText = "🎵 MUSIC: OFF";
+      }
+    });
+
+    const coin = document.getElementById("coin");
+    coin.addEventListener("click", () => {
+      coin.style.animation = "dropCoin 1s forwards";
+      coinSound.play();
+
+      setTimeout(() => {
+        document.getElementById("insert-coin").style.display = "none";
+        document.getElementById("bootup").style.display = "flex";
+        bootSound.play();
+
+        setTimeout(() => {
+          document.getElementById("bootup").style.display = "none";
+          document.getElementById("store").style.display = "block";
+        }, 3000);
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
