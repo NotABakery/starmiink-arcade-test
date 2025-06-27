@@ -18,6 +18,8 @@
       background: linear-gradient(to top, #000000, #191970 90%);
       color: #00ffff;
       overflow: hidden;
+      border: 20px solid #00ffff;
+      border-image: url('arcade-border.png') 30 round; /* arcade-style border */
     }
 
     #insert-screen,
@@ -26,9 +28,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%; /* Let JS set exact height */
+      height: 100vh;
       text-align: center;
       gap: 16px;
+      padding: 20px;
     }
 
     .logo-placeholder {
@@ -43,8 +46,6 @@
       animation: arcade-blink 1.2s infinite alternate;
       cursor: pointer;
       padding: 12px;
-      display: inline-block;
-      touch-action: manipulation;
     }
 
     .tap-to-start {
@@ -61,9 +62,6 @@
 
     #bootup {
       display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       background: #000022;
       color: #00ffff;
       font-size: 14px;
@@ -75,21 +73,6 @@
       100% { opacity: 1; }
     }
 
-    #bootup::before {
-      content: "";
-      width: 100%;
-      height: 5px;
-      background: linear-gradient(to right, #00ffff, #0000ff, #00ffff);
-      background-size: 200% auto;
-      animation: glowLine 4s linear infinite;
-      margin-bottom: 20px;
-    }
-
-    @keyframes glowLine {
-      0% { background-position: 0 0; }
-      100% { background-position: 200% 0; }
-    }
-
     .loading-bar-container {
       width: 60%;
       max-width: 300px;
@@ -98,8 +81,6 @@
       border-radius: 5px;
       margin-top: 30px;
       background-color: #000033;
-      overflow: hidden;
-      box-shadow: 0 0 10px #00ffff50;
     }
 
     .loading-bar {
@@ -116,16 +97,9 @@
 
     #store {
       display: none;
-      padding: 40px 20px 80px;
+      padding: 40px 20px 120px;
       background: #000;
       text-align: center;
-      position: relative;
-    }
-
-    #store h2 {
-      color: #34ffcc;
-      margin-bottom: 30px;
-      font-size: 16px;
     }
 
     .product-grid {
@@ -135,22 +109,17 @@
       flex-wrap: wrap;
     }
 
-    .product {
-      cursor: pointer;
-    }
+    .product { cursor: pointer; }
 
     footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
       background: #000;
       color: #34ffcc;
-      padding: 10px 0;
+      text-align: center;
+      padding: 20px 10px;
       font-size: 10px;
     }
 
-    #music-toggle {
+    #music-toggle, #menu-button {
       position: fixed;
       bottom: 50px;
       right: 20px;
@@ -163,38 +132,24 @@
       z-index: 9999;
     }
 
-    #cart-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #000;
-      color: #34ffcc;
-      border: 2px solid #34ffcc;
-      padding: 6px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      z-index: 9999;
+    #menu-button {
+      bottom: 100px;
+      left: 20px;
     }
 
     @media (max-width: 768px) {
+      #bootup, #insert-screen { font-size: 12px; padding: 10px; }
       .product-grid { flex-direction: column; gap: 20px; }
-      .product { width: 80%; height: auto; }
-      #music-toggle { bottom: 70px; right: 10px; }
-      #cart-toggle { top: 20px; right: 10px; }
-      footer { font-size: 8px; padding: 8px 0; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Start Screen -->
   <div id="insert-screen">
     <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
     <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
     <p class="tap-to-start">TAP TO START</p>
   </div>
 
-  <!-- Bootup Screen -->
   <div id="bootup">
     <h1>★ SYSTEM BOOTING ★</h1>
     <p>Loading STARMIINK archives...</p>
@@ -203,9 +158,9 @@
     </div>
   </div>
 
-  <!-- Store -->
   <div id="store">
-    <button id="cart-toggle">🛒 CART (0)</button>
+    <button id="menu-button" onclick="goHome()">🏠 MENU</button>
+    <h2>LOOKBOOK</h2>
     <div class="product-grid">
       <div class="product" onclick="playClick(); alert('LOCKED.')">
         <img src="HOODIE PIXEL TEST.png" style="width:80%; opacity:0.5;" />
@@ -216,20 +171,21 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
-    © 2025 <span style="color:#fff; text-shadow: 0 0 5px #34ffcc;">STARMIINK™</span> · All Rights Reserved
+    <p>© 2025 <strong>STARMIINK™</strong> · All Rights Reserved</p>
+    <p><a href="#about">About</a> | <a href="#contact">Contact</a> | <a href="#account">Account</a></p>
+    <form onsubmit="event.preventDefault(); alert('Subscribed!')">
+      <input type="email" placeholder="Enter email for newsletter" style="padding: 4px; margin: 10px; font-size: 10px;">
+      <button type="submit" style="font-size: 10px; padding: 4px 8px;">Subscribe</button>
+    </form>
   </footer>
 
-  <!-- Music Toggle -->
   <button id="music-toggle">🎵 MUSIC: OFF</button>
 
-  <!-- Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
   <audio id="clickSound" src="click.mp3"></audio>
   <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
 
-  <!-- Script -->
   <script>
     const bootSound = document.getElementById("bootSound");
     const clickSound = document.getElementById("clickSound");
@@ -246,18 +202,21 @@
       insertScreen.style.display = "none";
       bootup.style.display = "flex";
       bootSound.play();
-
       setTimeout(() => {
         bootup.style.display = "none";
         store.style.display = "block";
       }, 3000);
     }
 
-    startBtn.addEventListener("click", startGame);
-    startBtn.addEventListener("touchstart", function (e) {
-      e.preventDefault();
-      startGame();
-    });
+    function goHome() {
+      store.style.display = "none";
+      insertScreen.style.display = "flex";
+    }
+
+    function playClick() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
 
     musicToggle.addEventListener("click", () => {
       musicOn = !musicOn;
@@ -270,20 +229,11 @@
       }
     });
 
-    function playClick() {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    }
-
-    function setFullHeight() {
-      const fullHeight = window.innerHeight + "px";
-      document.getElementById("bootup").style.height = fullHeight;
-      document.getElementById("insert-screen").style.height = fullHeight;
-    }
-
-    window.addEventListener("load", setFullHeight);
-    window.addEventListener("resize", setFullHeight);
+    startBtn.addEventListener("click", startGame);
+    startBtn.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      startGame();
+    });
   </script>
-
 </body>
 </html>
