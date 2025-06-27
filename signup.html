@@ -1,84 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STARMIINK Sign Up</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #000;
+      background-color: #000;
+      background-image: url('arcade-border.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
       color: #00ffff;
       font-family: 'Press Start 2P', monospace;
-      text-align: center;
+      min-height: 100vh;
       padding: 20px;
-      border: 20px solid transparent;
-      border-image: url('arcade-border.png') 30 round;
+      text-align: center;
     }
 
-    h1 {
-      font-size: 16px;
-      margin-bottom: 30px;
+    .menu-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10000;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-
-    input {
+    .menu-bar select {
       font-family: 'Press Start 2P', monospace;
-      padding: 10px;
-      border: 2px solid #00ffff;
       background: #000;
       color: #00ffff;
-      width: 100%;
+      border: 2px solid #00ffff;
+      padding: 5px;
       font-size: 10px;
     }
 
-    button {
-      padding: 10px 20px;
+    h1 {
+      margin-top: 80px;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 12px;
       font-family: 'Press Start 2P', monospace;
-      background: #00ffff;
+      border: 2px solid #00ffff;
+      background: #000;
+      color: #00ffff;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 12px;
+      font-family: 'Press Start 2P', monospace;
+      background-color: #00ffff;
       color: #000;
-      border: none;
+      border: 2px solid #00ffff;
       cursor: pointer;
     }
 
     button:hover {
-      background: #00cccc;
-    }
-
-    .small-link {
-      margin-top: 10px;
-      font-size: 10px;
-    }
-
-    a {
+      background-color: #000;
       color: #00ffff;
-      text-decoration: none;
     }
 
-    a:hover {
-      text-decoration: underline;
+    footer {
+      margin-top: 50px;
+      font-size: 10px;
+      color: #34ffcc;
     }
   </style>
 </head>
 <body>
-  <h1>★ CREATE ACCOUNT ★</h1>
+  <div class="menu-bar">
+    <select onchange="navigateMenu(this)">
+      <option value="">☰ MENU</option>
+      <option value="index.html">🏠 Home</option>
+      <option value="shop.html">🛍️ Shop</option>
+      <option value="lookbook.html">🧵 Lookbook</option>
+      <option value="account.html">👤 Account</option>
+      <option value="about.html">📖 About</option>
+      <option value="contact.html">📬 Contact</option>
+      <option value="newsletter.html">📰 Newsletter</option>
+    </select>
+  </div>
 
-  <form onsubmit="event.preventDefault(); alert('Sign-up function not connected yet.');">
+  <h1>🔐 Sign Up</h1>
+
+  <form onsubmit="event.preventDefault(); alert('Signed up!');">
     <input type="text" placeholder="Username" required />
     <input type="email" placeholder="Email" required />
     <input type="password" placeholder="Password" required />
-    <input type="password" placeholder="Confirm Password" required />
-    <button type="submit">SIGN UP</button>
-    <p class="small-link">Already have an account? <a href="account.html">Log in</a></p>
+    <button type="submit">Create Account</button>
   </form>
 
-  <a href="index.html">⬅ Back to Home</a>
+  <footer>
+    © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
+  </footer>
+
+  <script>
+    function navigateMenu(select) {
+      const destination = select.value;
+      if (destination) window.location.href = destination;
+    }
+  </script>
 </body>
 </html>
