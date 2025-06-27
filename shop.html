@@ -17,14 +17,35 @@
       font-family: 'Press Start 2P', monospace;
       color: #00ffff;
       min-height: 100vh;
-      overflow-x: hidden;
-      background-image: url('arcade-border.png');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: contain;
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-x: hidden;
+      background: url('arcade-border.png') no-repeat center center;
+      background-size: contain;
+    }
+
+    .border-container {
+      position: relative;
+      width: 100vw;
+      flex-grow: 1;
+      max-width: 1920px;
+      max-height: 1080px;
+      box-sizing: border-box;
+      padding: 80px 100px 140px; /* added bottom padding to avoid footer overlap */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      overflow-y: auto;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      padding-bottom: 20px; /* extra padding inside content */
     }
 
     .menu-bar {
@@ -41,32 +62,10 @@
       border: 2px solid #00ffff;
       padding: 5px;
       font-size: 10px;
-      cursor: pointer;
-    }
-
-    .cart-icon {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      font-size: 20px;
-      color: #00ffff;
-      cursor: pointer;
-      z-index: 10000;
-    }
-
-    .main-content {
-      max-width: 1200px;
-      width: 100%;
-      margin: 100px auto 40px; /* space below menu and above footer */
-      padding: 0 20px;
-      box-sizing: border-box;
-      text-align: center;
-      flex-grow: 1;
-      overflow-y: auto;
-      z-index: 1;
     }
 
     h1 {
+      margin-top: 80px;
       margin-bottom: 30px;
       font-size: 16px;
     }
@@ -109,69 +108,54 @@
       max-width: 1920px;
       text-align: center;
       box-sizing: border-box;
+      position: relative; /* ensure footer layers on top */
       z-index: 10;
-      position: relative;
     }
 
     @media (max-width: 768px) {
-      body {
+      .border-container {
+        padding: 40px 20px 140px; /* same bottom padding for mobile */
         background-size: cover;
+        max-width: 100vw;
+        max-height: 100vh;
       }
-
-      .main-content {
-        margin: 80px 15px 40px;
-        max-width: 100%;
-      }
-
       .product-grid {
         flex-direction: column;
         gap: 20px;
-      }
-
-      .product {
-        width: 100%;
-      }
-
-      .menu-bar select {
-        font-size: 14px;
-      }
-
-      .cart-icon {
-        font-size: 26px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="menu-bar">
-    <select onchange="navigateMenu(this)">
-      <option value="">☰ MENU</option>
-      <option value="index.html">🏠 Home</option>
-      <option value="shop.html" selected>🛍️ Shop</option>
-      <option value="lookbook.html">🧵 Lookbook</option>
-      <option value="account.html">👤 Account</option>
-      <option value="about.html">📖 About</option>
-      <option value="contact.html">📬 Contact</option>
-      <option value="newsletter.html">📰 Newsletter</option>
-    </select>
-  </div>
-
-  <div class="cart-icon" onclick="alert('🛒 Cart is currently empty.')">🛒</div>
-
-  <main class="main-content">
-    <h1>🛍️ STARMIINK Shop</h1>
-
-    <div class="product-grid">
-      <div class="product" onclick="alert('LOCKED.')">
-        <img src="HOODIE PIXEL TEST.png" alt="Hoodie" />
-        <p>Hoodie (Coming Soon)</p>
+  <div class="border-container">
+    <div class="content">
+      <div class="menu-bar">
+        <select onchange="navigateMenu(this)">
+          <option value="">☰ MENU</option>
+          <option value="index.html">🏠 Home</option>
+          <option value="shop.html">🛍️ Shop</option>
+          <option value="lookbook.html">🧵 Lookbook</option>
+          <option value="account.html">👤 Account</option>
+          <option value="about.html">📖 About</option>
+          <option value="contact.html">📬 Contact</option>
+          <option value="newsletter.html">📰 Newsletter</option>
+        </select>
       </div>
-      <div class="product" onclick="alert('Added to cart!')">
-        <img src="SWEATS PIXEL TEST.png" alt="Sweats" />
-        <p>Sweats</p>
+
+      <h1>🛍️ STARMIINK Shop</h1>
+
+      <div class="product-grid">
+        <div class="product" onclick="alert('LOCKED.')">
+          <img src="HOODIE PIXEL TEST.png" alt="Hoodie" />
+          <p>Hoodie (Coming Soon)</p>
+        </div>
+        <div class="product" onclick="alert('Added to cart!')">
+          <img src="SWEATS PIXEL TEST.png" alt="Sweats" />
+          <p>Sweats</p>
+        </div>
       </div>
     </div>
-  </main>
+  </div>
 
   <footer>
     © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
