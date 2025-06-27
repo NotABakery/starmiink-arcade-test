@@ -15,11 +15,11 @@
 
     body {
       font-family: 'Press Start 2P', monospace;
-      background: linear-gradient(to top, #000000, #191970 90%);
+      background: #000;
       color: #00ffff;
-      overflow: hidden;
-      border: 20px solid #00ffff;
-      border-image: url('arcade-border.png') 30 round; /* arcade-style border */
+      overflow-x: hidden;
+      border: 20px solid transparent;
+      border-image: url('arcade-border.png') 30 round;
     }
 
     #insert-screen,
@@ -111,6 +111,22 @@
 
     .product { cursor: pointer; }
 
+    .menu-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10000;
+    }
+
+    .menu-bar select {
+      font-family: 'Press Start 2P', monospace;
+      background: #000;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 5px;
+      font-size: 10px;
+    }
+
     footer {
       background: #000;
       color: #34ffcc;
@@ -119,7 +135,7 @@
       font-size: 10px;
     }
 
-    #music-toggle, #menu-button {
+    #music-toggle {
       position: fixed;
       bottom: 50px;
       right: 20px;
@@ -132,11 +148,6 @@
       z-index: 9999;
     }
 
-    #menu-button {
-      bottom: 100px;
-      left: 20px;
-    }
-
     @media (max-width: 768px) {
       #bootup, #insert-screen { font-size: 12px; padding: 10px; }
       .product-grid { flex-direction: column; gap: 20px; }
@@ -144,12 +155,28 @@
   </style>
 </head>
 <body>
+  <!-- Menu Bar -->
+  <div class="menu-bar">
+    <select onchange="navigateMenu(this)">
+      <option value="">☰ MENU</option>
+      <option value="index.html">🏠 Home</option>
+      <option value="shop.html">🛍️ Shop</option>
+      <option value="lookbook.html">🧵 Lookbook</option>
+      <option value="account.html">👤 Account</option>
+      <option value="about.html">📖 About</option>
+      <option value="contact.html">📬 Contact</option>
+      <option value="newsletter.html">📰 Newsletter</option>
+    </select>
+  </div>
+
+  <!-- Start Screen -->
   <div id="insert-screen">
     <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
     <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
     <p class="tap-to-start">TAP TO START</p>
   </div>
 
+  <!-- Bootup Screen -->
   <div id="bootup">
     <h1>★ SYSTEM BOOTING ★</h1>
     <p>Loading STARMIINK archives...</p>
@@ -158,9 +185,9 @@
     </div>
   </div>
 
+  <!-- Store Section (becomes visible after boot) -->
   <div id="store">
-    <button id="menu-button" onclick="goHome()">🏠 MENU</button>
-    <h2>LOOKBOOK</h2>
+    <h2>★ SHOP ★</h2>
     <div class="product-grid">
       <div class="product" onclick="playClick(); alert('LOCKED.')">
         <img src="HOODIE PIXEL TEST.png" style="width:80%; opacity:0.5;" />
@@ -173,11 +200,6 @@
 
   <footer>
     <p>© 2025 <strong>STARMIINK™</strong> · All Rights Reserved</p>
-    <p><a href="#about">About</a> | <a href="#contact">Contact</a> | <a href="#account">Account</a></p>
-    <form onsubmit="event.preventDefault(); alert('Subscribed!')">
-      <input type="email" placeholder="Enter email for newsletter" style="padding: 4px; margin: 10px; font-size: 10px;">
-      <button type="submit" style="font-size: 10px; padding: 4px 8px;">Subscribe</button>
-    </form>
   </footer>
 
   <button id="music-toggle">🎵 MUSIC: OFF</button>
@@ -208,14 +230,14 @@
       }, 3000);
     }
 
-    function goHome() {
-      store.style.display = "none";
-      insertScreen.style.display = "flex";
-    }
-
     function playClick() {
       clickSound.currentTime = 0;
       clickSound.play();
+    }
+
+    function navigateMenu(select) {
+      const destination = select.value;
+      if (destination) window.location.href = destination;
     }
 
     musicToggle.addEventListener("click", () => {
