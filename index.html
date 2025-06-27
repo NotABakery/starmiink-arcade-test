@@ -113,9 +113,45 @@
       100% { width: 100%; }
     }
 
+    /* 🔄 Rotate Device Warning */
+    .rotate-warning {
+      display: none;
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      color: #00ffff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .rotate-warning img {
+      width: 64px;
+      margin: 20px 0;
+    }
+
+    @media screen and (orientation: portrait) {
+      .rotate-warning {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- 🔄 Rotate Device Notification -->
+  <div class="rotate-warning">
+    <p>🔄 Please rotate your device</p>
+    <p>For best STARMIINK Arcade experience</p>
+  </div>
+
   <!-- Menu -->
   <div class="menu-bar">
     <select onchange="navigateMenu(this)">
@@ -149,6 +185,7 @@
     </div>
   </div>
 
+  <!-- Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
   <audio id="clickSound" src="click.mp3"></audio>
 
