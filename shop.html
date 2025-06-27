@@ -3,72 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STARMIINK Shop</title>
+  <title>Shop</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #000;
+      background-color: #000;
+      background-image: url('arcade-border.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
       color: #00ffff;
       font-family: 'Press Start 2P', monospace;
       text-align: center;
+      min-height: 100vh;
       padding: 20px;
-      border: 20px solid transparent;
-      border-image: url('arcade-border.png') 30 round;
+    }
+
+    .menu-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10000;
+    }
+
+    .menu-bar select {
+      font-family: 'Press Start 2P', monospace;
+      background: #000;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 5px;
+      font-size: 10px;
     }
 
     h1 {
-      font-size: 16px;
+      margin-top: 60px;
       margin-bottom: 30px;
+      font-size: 16px;
     }
 
     .product-grid {
       display: flex;
-      gap: 30px;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
     }
 
     .product {
       width: 200px;
-      border: 2px solid #00ffff;
-      padding: 10px;
-      background: #000022;
       cursor: pointer;
     }
 
     .product img {
       width: 100%;
-      height: auto;
-      display: block;
-      margin-bottom: 10px;
     }
 
-    .product:hover {
-      background: #001144;
-    }
-
-    a {
-      display: inline-block;
+    footer {
       margin-top: 40px;
-      color: #00ffff;
-      text-decoration: none;
+      font-size: 10px;
+      color: #34ffcc;
+    }
+
+    @media (max-width: 768px) {
+      .product {
+        width: 80%;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>★ STARMIINK SHOP ★</h1>
-  <div class="product-grid">
-    <div class="product" onclick="alert('LOCKED.')">
-      <img src="HOODIE PIXEL TEST.png" alt="Hoodie" style="opacity: 0.5;" />
-      <p>HOODIE</p>
-    </div>
-    <div class="product" onclick="alert('DROP ADDED TO CART!')">
-      <img src="SWEATS PIXEL TEST.png" alt="Sweats" />
-      <p>SWEATS</p>
-    </div>
-    <!-- Add more products as needed -->
+  <div class="menu-bar">
+    <select onchange="navigateMenu(this)">
+      <option value="">☰ MENU</option>
+      <option value="index.html">🏠 Home</option>
+      <option value="shop.html">🛍️ Shop</option>
+      <option value="lookbook.html">🧵 Lookbook</option>
+      <option value="account.html">👤 Account</option>
+      <option value="about.html">📖 About</option>
+      <option value="contact.html">📬 Contact</option>
+      <option value="newsletter.html">📰 Newsletter</option>
+    </select>
   </div>
 
-  <a href="index.html">⬅ Back to Home</a>
+  <h1>★ SHOP ★</h1>
+  <div class="product-grid">
+    <div class="product" onclick="alert('LOCKED.')">
+      <img src="HOODIE PIXEL TEST.png" alt="Hoodie" style="opacity: 0.5;">
+    </div>
+    <div class="product" onclick="alert('DROP ADDED TO CART!')">
+      <img src="SWEATS PIXEL TEST.png" alt="Sweats">
+    </div>
+  </div>
+
+  <footer>
+    © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
+  </footer>
+
+  <script>
+    function navigateMenu(select) {
+      const destination = select.value;
+      if (destination) window.location.href = destination;
+    }
+  </script>
 </body>
 </html>
-
