@@ -42,25 +42,30 @@
       cursor: pointer;
     }
 
-   #insert-screen, #bootup {
+  #insert-screen,
+#bootup {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1;
   padding: 20px;
+  background: transparent; /* ✅ Keep the arcade border visible */
 }
+
 
 #insert-screen .inner,
 #bootup .inner {
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.85); /* ✅ Transparent black */
   padding: 30px;
   border-radius: 12px;
+  border: 1px solid #00ffff33;
+  box-shadow: 0 0 10px #00ffff55;
 }
+
 
 
     .logo-placeholder {
