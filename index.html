@@ -2,49 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STARMIINK Arcade</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
-      background: #000;
       font-family: 'Press Start 2P', monospace;
+      background: url('arcade-border.png') no-repeat center center fixed;
+      background-size: cover;
       color: #00ffff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-x: hidden;
-    }
-
-    .border-container {
-      position: relative;
-      width: 100vw;
-      flex-grow: 1;
-      max-width: 1920px;
-      max-height: 1080px;
-      background: url('arcade-border.png') no-repeat center center;
-      background-size: contain;
-      box-sizing: border-box;
-      padding: 80px 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .content {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
+      overflow: hidden;
       text-align: center;
     }
 
@@ -52,11 +21,10 @@
       position: fixed;
       top: 10px;
       left: 10px;
-      z-index: 10000;
+      z-index: 9999;
     }
 
     .menu-bar select {
-      font-family: 'Press Start 2P', monospace;
       background: #000;
       color: #00ffff;
       border: 2px solid #00ffff;
@@ -64,16 +32,28 @@
       font-size: 10px;
     }
 
-    #insert-screen,
-    #bootup {
+    .cart-icon {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+      color: #00ffff;
+      z-index: 9999;
+      cursor: pointer;
+    }
+
+    #insert-screen, #bootup {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
-      gap: 16px;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1;
       padding: 20px;
-      text-align: center;
     }
 
     .logo-placeholder {
@@ -83,40 +63,19 @@
 
     .arcade-start {
       font-size: 18px;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #0000ff;
-      animation: arcade-blink 1.2s infinite alternate;
+      animation: blink 1.2s infinite alternate;
       cursor: pointer;
       padding: 12px;
     }
 
     .tap-to-start {
       font-size: 12px;
-      color: #00ffff;
-      text-shadow: 0 0 5px #00ffff;
-      animation: arcade-blink 1.5s infinite alternate;
+      animation: blink 1.5s infinite alternate;
     }
 
-    @keyframes arcade-blink {
-      0% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0.5; transform: scale(1.02); }
-    }
-
-    #bootup {
-      display: none;
-      background: #000022;
-      color: #00ffff;
-      font-size: 14px;
-      animation: bootFlash 1.5s ease-in-out;
-      height: 100%;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    @keyframes bootFlash {
-      0% { opacity: 0.3; }
-      100% { opacity: 1; }
+    @keyframes blink {
+      0% { opacity: 1; }
+      100% { opacity: 0.4; }
     }
 
     .loading-bar-container {
@@ -124,11 +83,8 @@
       max-width: 300px;
       height: 10px;
       border: 1px solid #00ffff;
-      border-radius: 5px;
       margin-top: 30px;
       background-color: #000033;
-      overflow: hidden;
-      box-shadow: 0 0 10px #00ffff50;
     }
 
     .loading-bar {
@@ -143,172 +99,117 @@
       100% { width: 100%; }
     }
 
-    #store {
+    .rotate-warning {
       display: none;
-      padding: 40px 20px 120px;
-      background: #000;
-      text-align: center;
-    }
-
-    .product-grid {
-      display: flex;
-      gap: 30px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .product {
-      cursor: pointer;
-    }
-
-    footer {
-      background: #000;
-      color: #34ffcc;
-      padding: 20px 10px;
-      font-size: 10px;
-      width: 100%;
-      max-width: 1920px;
-      text-align: center;
-      box-sizing: border-box;
-    }
-
-    #music-toggle {
       position: fixed;
-      bottom: 50px;
-      right: 20px;
-      background: #000;
-      color: #34ffcc;
-      border: 2px solid #34ffcc;
-      padding: 5px 10px;
-      font-size: 10px;
-      cursor: pointer;
-      z-index: 9999;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      color: #00ffff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
     }
 
-    @media (max-width: 768px) {
-      .border-container {
-        padding: 40px 20px;
-        background-size: cover;
-        max-width: 100vw;
-        max-height: 100vh;
-      }
-      .product-grid {
-        flex-direction: column;
-        gap: 20px;
-      }
-      #bootup, #insert-screen {
-        padding: 10px;
+    .rotate-warning img {
+      width: 64px;
+      margin: 20px 0;
+    }
+
+    @media screen and (orientation: portrait) {
+      .rotate-warning {
+        display: flex;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="border-container">
-    <div class="content">
-      <!-- Menu Bar -->
-      <div class="menu-bar">
-        <select onchange="navigateMenu(this)">
-          <option value="">☰ MENU</option>
-          <option value="index.html">🏠 Home</option>
-          <option value="shop.html">🛍️ Shop</option>
-          <option value="lookbook.html">🧵 Lookbook</option>
-          <option value="account.html">👤 Account</option>
-          <option value="about.html">📖 About</option>
-          <option value="contact.html">📬 Contact</option>
-          <option value="newsletter.html">📰 Newsletter</option>
-        </select>
-      </div>
+  <!-- Rotate Device Prompt -->
+  <div class="rotate-warning">
+    <p>🔄 Please rotate your device</p>
+    <p>For best STARMIINK Arcade experience</p>
+  </div>
 
-      <!-- Start Screen -->
-      <div id="insert-screen">
-        <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
-        <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
-        <p class="tap-to-start">TAP TO START</p>
-      </div>
+  <div class="menu-bar">
+    <select onchange="navigateMenu(this)">
+      <option value="">☰ MENU</option>
+      <option value="index.html">🏠 Home</option>
+      <option value="shop.html">🛍️ Shop</option>
+      <option value="lookbook.html">🧵 Lookbook</option>
+      <option value="account.html">👤 Account</option>
+      <option value="about.html">📖 About</option>
+      <option value="contact.html">📬 Contact</option>
+      <option value="newsletter.html">📰 Newsletter</option>
+    </select>
+  </div>
 
-      <!-- Bootup Screen -->
-      <div id="bootup">
-        <h1>★ SYSTEM BOOTING ★</h1>
-        <p>Loading STARMIINK archives...</p>
-        <div class="loading-bar-container">
-          <div class="loading-bar"></div>
-        </div>
-      </div>
+  <div class="cart-icon" onclick="alert('🛒 Cart is currently empty.')">🛒</div>
 
-      <!-- Store Section (becomes visible after boot) -->
-      <div id="store">
-        <h2>★ SHOP ★</h2>
-        <div class="product-grid">
-          <div class="product" onclick="playClick(); alert('LOCKED.')">
-            <img src="HOODIE PIXEL TEST.png" style="width:80%; opacity:0.5;" />
-          </div>
-          <div class="product" onclick="playClick(); alert('DROP ADDED TO CART!')">
-            <img src="SWEATS PIXEL TEST.png" style="width:80%;" />
-          </div>
-        </div>
-      </div>
+  <!-- Insert Coin Screen -->
+  <div id="insert-screen">
+    <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
+    <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
+    <p class="tap-to-start">TAP TO START</p>
+  </div>
 
-      <button id="music-toggle">🎵 MUSIC: OFF</button>
+  <!-- Bootup Animation Screen -->
+  <div id="bootup" style="display:none;">
+    <h1>★ SYSTEM BOOTING ★</h1>
+    <p>Loading STARMIINK archives...</p>
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
     </div>
   </div>
 
-  <footer>
-    © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
-  </footer>
-
+  <!-- Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
   <audio id="clickSound" src="click.mp3"></audio>
-  <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
 
   <script>
-    const bootSound = document.getElementById("bootSound");
-    const clickSound = document.getElementById("clickSound");
-    const bgMusic = document.getElementById("bgMusic");
-    const musicToggle = document.getElementById("music-toggle");
     const startBtn = document.getElementById("startBtn");
     const insertScreen = document.getElementById("insert-screen");
     const bootup = document.getElementById("bootup");
-    const store = document.getElementById("store");
-
-    let musicOn = false;
-
-    function startGame() {
-      insertScreen.style.display = "none";
-      bootup.style.display = "flex";
-      bootSound.play();
-      setTimeout(() => {
-        bootup.style.display = "none";
-        store.style.display = "block";
-      }, 3000);
-    }
+    const bootSound = document.getElementById("bootSound");
+    const clickSound = document.getElementById("clickSound");
 
     function playClick() {
       clickSound.currentTime = 0;
       clickSound.play();
     }
 
+    function startGame() {
+      insertScreen.style.display = "none";
+      bootup.style.display = "flex";
+      bootSound.play();
+
+      setTimeout(() => {
+        window.location.href = "shop.html";
+      }, 3000);
+    }
+
+    startBtn.addEventListener("click", () => {
+      playClick();
+      startGame();
+    });
+
+    startBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      playClick();
+      startGame();
+    });
+
     function navigateMenu(select) {
       const destination = select.value;
       if (destination) window.location.href = destination;
     }
-
-    musicToggle.addEventListener("click", () => {
-      musicOn = !musicOn;
-      if (musicOn) {
-        bgMusic.play();
-        musicToggle.innerText = "🎵 MUSIC: ON";
-      } else {
-        bgMusic.pause();
-        musicToggle.innerText = "🎵 MUSIC: OFF";
-      }
-    });
-
-    startBtn.addEventListener("click", startGame);
-    startBtn.addEventListener("touchstart", function (e) {
-      e.preventDefault();
-      startGame();
-    });
   </script>
 </body>
 </html>
