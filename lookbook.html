@@ -1,51 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STARMIINK Lookbook</title>
+  <title>2025 Lookbook</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #000;
+      background-color: #000;
+      background-image: url('arcade-border.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
       color: #00ffff;
       font-family: 'Press Start 2P', monospace;
-      text-align: center;
+      min-height: 100vh;
       padding: 20px;
-      border: 20px solid transparent;
-      border-image: url('arcade-border.png') 30 round;
+      text-align: center;
     }
+
+    .menu-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10000;
+    }
+
+    .menu-bar select {
+      font-family: 'Press Start 2P', monospace;
+      background: #000;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 5px;
+      font-size: 10px;
+    }
+
     h1 {
+      margin-top: 80px;
+      margin-bottom: 30px;
       font-size: 16px;
-      margin-bottom: 20px;
     }
-    .lookbook-gallery {
+
+    .lookbook-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
+      margin-top: 20px;
     }
-    .lookbook-gallery img {
-      width: 200px;
-      height: auto;
+
+    .lookbook-item {
+      width: 240px;
       border: 2px solid #00ffff;
+      padding: 10px;
+      background: #000;
     }
-    a {
-      display: inline-block;
-      margin-top: 30px;
-      color: #00ffff;
-      text-decoration: none;
+
+    .lookbook-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .lookbook-item p {
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 10px;
+      color: #34ffcc;
+    }
+
+    @media (max-width: 768px) {
+      .lookbook-item { width: 80%; }
     }
   </style>
 </head>
 <body>
-  <h1>★ STARMIINK LOOKBOOK ★</h1>
-  <div class="lookbook-gallery">
-    <img src="look1.png" alt="Look 1">
-    <img src="look2.png" alt="Look 2">
-    <img src="look3.png" alt="Look 3">
-    <!-- Add more looks as needed -->
+  <div class="menu-bar">
+    <select onchange="navigateMenu(this)">
+      <option value="">☰ MENU</option>
+      <option value="index.html">🏠 Home</option>
+      <option value="shop.html">🛍️ Shop</option>
+      <option value="lookbook.html">🧵 Lookbook</option>
+      <option value="account.html">👤 Account</option>
+      <option value="about.html">📖 About</option>
+      <option value="contact.html">📬 Contact</option>
+      <option value="newsletter.html">📰 Newsletter</option>
+    </select>
   </div>
-  <a href="index.html">⬅ Back to Home</a>
+
+  <h1>🧵 Lookbook</h1>
+
+  <div class="lookbook-grid">
+    <div class="lookbook-item">
+      <img src="look1.png" alt="Look 1">
+      <p>Pixel Drop Look 1</p>
+    </div>
+    <div class="lookbook-item">
+      <img src="look2.png" alt="Look 2">
+      <p>Pixel Drop Look 2</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
+  </footer>
+
+  <script>
+    function navigateMenu(select) {
+      const destination = select.value;
+      if (destination) window.location.href = destination;
+    }
+  </script>
 </body>
 </html>
-
