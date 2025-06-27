@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>STARMIINK Arcade</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: 'Press Start 2P', monospace;
-      background: url('arcade-border.png') no-repeat center center fixed;
+      margin: 0; padding: 0; height: 100%;
+      background-color: #000000;
+      background-image: url('arcade-border.png');
+      background-repeat: no-repeat;
+      background-position: center center;
       background-size: cover;
       color: #00ffff;
+      font-family: 'Press Start 2P', monospace;
       overflow: hidden;
       text-align: center;
     }
@@ -33,121 +33,90 @@
       border: 2px solid #00ffff;
       padding: 5px;
       font-size: 10px;
+      font-family: 'Press Start 2P', monospace;
+      cursor: pointer;
     }
 
     .cart-icon {
       position: fixed;
       top: 10px;
       right: 10px;
-      font-size: 18px;
+      font-size: 20px;
       color: #00ffff;
       z-index: 9999;
       cursor: pointer;
+      user-select: none;
+      text-shadow: 0 0 10px #00ffff;
     }
 
-   #insert-screen,
-#bootup {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  padding: 20px;
-  background: transparent; /* no box background */
-  color: #00ffff;
-  text-shadow: 0 0 8px #00ffff;
-}
-
-.logo-placeholder {
-  width: 200px;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.arcade-start {
-  font-size: 18px;
-  cursor: pointer;
-  animation: blink 1.2s infinite alternate;
-  text-shadow: 0 0 12px #00ffff, 0 0 24px #00ffff;
-}
-
-.tap-to-start {
-  font-size: 12px;
-  animation: blink 1.5s infinite alternate;
-  text-shadow: 0 0 8px #00ffff;
-}
-
-@keyframes blink {
-  0% { opacity: 1; }
-  100% { opacity: 0.4; }
-}
-
-.loading-bar-container {
-  width: 60%;
-  max-width: 300px;
-  height: 10px;
-  border: 1px solid #00ffff;
-  margin-top: 30px;
-  background-color: #000033;
-  box-shadow: 0 0 10px #00ffff55;
-}
-
-.loading-bar {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(to right, #00ffff, #0000ff);
-  animation: loadBar 2.5s ease-out forwards;
-}
-
-@keyframes loadBar {
-  0% { width: 0%; }
-  100% { width: 100%; }
-}
-
-    .rotate-warning {
-      display: none;
-      position: fixed;
-      z-index: 999999;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      color: #00ffff;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 12px;
-      text-align: center;
+    #insert-screen, #bootup {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      background: transparent;
+      color: #00ffff;
+      text-shadow: 0 0 8px #00ffff;
+      z-index: 1;
       padding: 20px;
     }
 
-    .rotate-warning img {
-      width: 64px;
-      margin: 20px 0;
+    .logo-placeholder {
+      width: 200px;
+      margin-bottom: 20px;
     }
 
-    @media screen and (orientation: portrait) {
-      .rotate-warning {
-        display: flex;
-      }
+    .arcade-start {
+      font-size: 18px;
+      cursor: pointer;
+      animation: blink 1.2s infinite alternate;
+      text-shadow: 0 0 12px #00ffff, 0 0 24px #00ffff;
+      user-select: none;
     }
+
+    .tap-to-start {
+      font-size: 12px;
+      animation: blink 1.5s infinite alternate;
+      text-shadow: 0 0 8px #00ffff;
+      user-select: none;
+    }
+
+    .loading-bar-container {
+      width: 60%;
+      max-width: 300px;
+      height: 10px;
+      border: 1px solid #00ffff;
+      margin-top: 30px;
+      background-color: #000033;
+      box-shadow: 0 0 10px #00ffff55;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .loading-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(to right, #00ffff, #0000ff);
+      animation: loadBar 2.5s ease-out forwards;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    @keyframes loadBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
   </style>
 </head>
 <body>
-
-  <!-- 🔄 Rotate Prompt -->
-  <div class="rotate-warning">
-    <p>🔄 Please rotate your device</p>
-    <p>For best STARMIINK Arcade experience</p>
-  </div>
-
-  <!-- ☰ Menu -->
+  <!-- Menu -->
   <div class="menu-bar">
     <select onchange="navigateMenu(this)">
       <option value="">☰ MENU</option>
@@ -161,32 +130,28 @@
     </select>
   </div>
 
-  <!-- 🛒 Cart Icon -->
+  <!-- Cart Icon -->
   <div class="cart-icon" onclick="alert('🛒 Cart is currently empty.')">🛒</div>
 
-  <!-- 💾 Insert Coin Screen -->
+  <!-- Insert Coin Screen -->
   <div id="insert-screen">
-      <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
-      <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
-      <p class="tap-to-start">TAP TO START</p>
-    </div>
+    <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
+    <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
+    <p class="tap-to-start">TAP TO START</p>
   </div>
 
-  <!-- 💻 Bootup Screen -->
+  <!-- Bootup Screen -->
   <div id="bootup" style="display:none;">
-      <h1>★ SYSTEM BOOTING ★</h1>
-      <p>Loading STARMIINK archives...</p>
-      <div class="loading-bar-container">
-        <div class="loading-bar"></div>
-      </div>
+    <h1>★ SYSTEM BOOTING ★</h1>
+    <p>Loading STARMIINK archives...</p>
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
     </div>
   </div>
 
-  <!-- 🔊 Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
   <audio id="clickSound" src="click.mp3"></audio>
 
-  <!-- 📜 Script -->
   <script>
     const startBtn = document.getElementById("startBtn");
     const insertScreen = document.getElementById("insert-screen");
@@ -214,7 +179,7 @@
       startGame();
     });
 
-    startBtn.addEventListener("touchstart", (e) => {
+    startBtn.addEventListener("touchstart", e => {
       e.preventDefault();
       playClick();
       startGame();
