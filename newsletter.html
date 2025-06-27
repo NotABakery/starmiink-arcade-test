@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STARMIINK Newsletter</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
+      background-image: url('arcade-border.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      color: #00ffff;
+      font-family: 'Press Start 2P', monospace;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .menu-bar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10000;
+    }
+
+    .menu-bar select {
+      font-family: 'Press Start 2P', monospace;
+      background: #000;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 5px;
+      font-size: 10px;
+    }
+
+    h1 {
+      margin-top: 80px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    input[type="email"] {
+      padding: 10px;
+      font-size: 12px;
+      font-family: 'Press Start 2P', monospace;
+      border: 2px solid #00ffff;
+      background: #000;
+      color: #00ffff;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 12px;
+      font-family: 'Press Start 2P', monospace;
+      background-color: #00ffff;
+      color: #000;
+      border: 2px solid #00ffff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #000;
+      color: #00ffff;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 10px;
+      color: #34ffcc;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-bar">
+    <select onchange="navigateMenu(this)">
+      <option value="">☰ MENU</option>
+      <option value="index.html">🏠 Home</option>
+      <option value="shop.html">🛍️ Shop</option>
+      <option value="lookbook.html">🧵 Lookbook</option>
+      <option value="account.html">👤 Account</option>
+      <option value="about.html">📖 About</option>
+      <option value="contact.html">📬 Contact</option>
+      <option value="newsletter.html">📰 Newsletter</option>
+    </select>
+  </div>
+
+  <h1>📰 Newsletter Signup</h1>
+
+  <form onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+    <input type="email" placeholder="Your email address" required />
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <footer>
+    © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
+  </footer>
+
+  <script>
+    function navigateMenu(select) {
+      const destination = select.value;
+      if (destination) window.location.href = destination;
+    }
+  </script>
+</body>
+</html>
 
