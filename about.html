@@ -1,29 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About STARMIINK</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
 
     body {
-      background-color: #000;
-      background-image: url('arcade-border.png');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      color: #00ffff;
+      margin: 0;
+      background: #000;
       font-family: 'Press Start 2P', monospace;
+      color: #00ffff;
       min-height: 100vh;
-      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .border-container {
+      position: relative;
+      width: 100vw;
+      flex-grow: 1;
+      max-width: 1920px;
+      max-height: 1080px;
+      background: url('arcade-border.png') no-repeat center center;
+      background-size: contain;
+      box-sizing: border-box;
+      padding: 80px 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
       text-align: center;
+      font-size: 10px;
+      line-height: 1.6;
     }
 
     .menu-bar {
@@ -48,40 +70,58 @@
       font-size: 16px;
     }
 
-    .about-text {
-      max-width: 800px;
-      margin: 0 auto;
+    footer {
+      background: #000;
+      color: #34ffcc;
+      padding: 20px 10px;
       font-size: 10px;
-      line-height: 1.6;
+      width: 100%;
+      max-width: 1920px;
+      text-align: center;
+      box-sizing: border-box;
     }
 
-    footer {
-      margin-top: 50px;
-      font-size: 10px;
-      color: #34ffcc;
+    @media (max-width: 768px) {
+      .border-container {
+        padding: 40px 20px;
+        background-size: cover;
+        max-width: 100vw;
+        max-height: 100vh;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="menu-bar">
-    <select onchange="navigateMenu(this)">
-      <option value="">☰ MENU</option>
-      <option value="index.html">🏠 Home</option>
-      <option value="shop.html">🛍️ Shop</option>
-      <option value="lookbook.html">🧵 Lookbook</option>
-      <option value="account.html">👤 Account</option>
-      <option value="about.html">📖 About</option>
-      <option value="contact.html">📬 Contact</option>
-      <option value="newsletter.html">📰 Newsletter</option>
-    </select>
-  </div>
+  <div class="border-container">
+    <div class="content">
+      <div class="menu-bar">
+        <select onchange="navigateMenu(this)">
+          <option value="">☰ MENU</option>
+          <option value="index.html">🏠 Home</option>
+          <option value="shop.html">🛍️ Shop</option>
+          <option value="lookbook.html">🧵 Lookbook</option>
+          <option value="account.html">👤 Account</option>
+          <option value="about.html">📖 About</option>
+          <option value="contact.html">📬 Contact</option>
+          <option value="newsletter.html">📰 Newsletter</option>
+        </select>
+      </div>
 
-  <h1>📖 About STARMIINK</h1>
+      <h1>📖 About STARMIINK</h1>
 
-  <div class="about-text">
-    <p>STARMIINK™ is a futuristic brand and culture-powered universe that blends fashion, technology, and street aesthetics.</p>
-    <br />
-    <p> it’s all part of the game. Our inspiration draws from gaming, Art, urban culture, Y2K nostalgia, and a love for Growth. Boot up, level up, and join us as we add to the culture.</p>
+      <p>
+        Welcome to STARMIINK — a retro arcade style online experience
+        where you can browse the latest pixel-inspired fashion drops,
+        check the lookbook, and more!
+      </p>
+      <p>
+        Our mission is to blend nostalgic vibes with modern streetwear
+        culture, all wrapped in a digital arcade aesthetic.
+      </p>
+      <p>
+        Stay tuned for exclusive drops and interactive features!
+      </p>
+    </div>
   </div>
 
   <footer>
@@ -96,4 +136,3 @@
   </script>
 </body>
 </html>
-
