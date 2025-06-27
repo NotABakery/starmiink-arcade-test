@@ -13,14 +13,20 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Press Start 2P', monospace;
-      background: #000;
-      color: #00ffff;
-      overflow-x: hidden;
-      border: 20px solid transparent;
-      border-image: url('arcade-border.png') 30 round;
-    }
+   body {
+  background-color: #000;
+  background-image: url('arcade-border.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: #00ffff;
+  font-family: 'Press Start 2P', monospace;
+  text-align: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  position: relative;
+}
 
     #insert-screen,
     #bootup {
