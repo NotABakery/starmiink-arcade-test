@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STARMIINK Sign Up</title>
+  <style>
+    body {
+      background: #000;
+      color: #00ffff;
+      font-family: 'Press Start 2P', monospace;
+      text-align: center;
+      padding: 20px;
+      border: 20px solid transparent;
+      border-image: url('arcade-border.png') 30 round;
+    }
+
+    h1 {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    input {
+      font-family: 'Press Start 2P', monospace;
+      padding: 10px;
+      border: 2px solid #00ffff;
+      background: #000;
+      color: #00ffff;
+      width: 100%;
+      font-size: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-family: 'Press Start 2P', monospace;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00cccc;
+    }
+
+    .small-link {
+      margin-top: 10px;
+      font-size: 10px;
+    }
+
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>★ CREATE ACCOUNT ★</h1>
+
+  <form onsubmit="event.preventDefault(); alert('Sign-up function not connected yet.');">
+    <input type="text" placeholder="Username" required />
+    <input type="email" placeholder="Email" required />
+    <input type="password" placeholder="Password" required />
+    <input type="password" placeholder="Confirm Password" required />
+    <button type="submit">SIGN UP</button>
+    <p class="small-link">Already have an account? <a href="account.html">Log in</a></p>
+  </form>
+
+  <a href="index.html">⬅ Back to Home</a>
+</body>
+</html>
