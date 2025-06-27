@@ -7,8 +7,11 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: 'Press Start 2P', monospace;
       background: url('arcade-border.png') no-repeat center center fixed;
       background-size: cover;
@@ -42,31 +45,28 @@
       cursor: pointer;
     }
 
-  #insert-screen,
-#bootup {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  padding: 20px;
-  background: transparent; /* ✅ Keep the arcade border visible */
-}
+    #insert-screen,
+    #bootup {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      padding: 20px;
+      background: transparent;
+    }
 
-
-#insert-screen .inner,
-#bootup .inner {
-  background: rgba(0, 0, 0, 0.85); /* ✅ Transparent black */
-  padding: 30px;
-  border-radius: 12px;
-  border: 1px solid #00ffff33;
-  box-shadow: 0 0 10px #00ffff55;
-}
-
-
+    #insert-screen .inner,
+    #bootup .inner {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #00ffff33;
+      box-shadow: 0 0 10px #00ffff55;
+    }
 
     .logo-placeholder {
       width: 200px;
@@ -144,12 +144,13 @@
 </head>
 <body>
 
-  <!-- Rotate Device Prompt -->
+  <!-- 🔄 Rotate Prompt -->
   <div class="rotate-warning">
     <p>🔄 Please rotate your device</p>
     <p>For best STARMIINK Arcade experience</p>
   </div>
 
+  <!-- ☰ Menu -->
   <div class="menu-bar">
     <select onchange="navigateMenu(this)">
       <option value="">☰ MENU</option>
@@ -163,32 +164,34 @@
     </select>
   </div>
 
+  <!-- 🛒 Cart Icon -->
   <div class="cart-icon" onclick="alert('🛒 Cart is currently empty.')">🛒</div>
 
-  <!-- Insert Coin Screen -->
+  <!-- 💾 Insert Coin Screen -->
   <div id="insert-screen">
-  <div class="inner">
-    <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
-    <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
-    <p class="tap-to-start">TAP TO START</p>
-  </div>
-</div>
-
-  <!-- Bootup Animation Screen -->
-  <div id="bootup" style="display:none;">
-  <div class="inner">
-    <h1>★ SYSTEM BOOTING ★</h1>
-    <p>Loading STARMIINK archives...</p>
-    <div class="loading-bar-container">
-      <div class="loading-bar"></div>
+    <div class="inner">
+      <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
+      <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
+      <p class="tap-to-start">TAP TO START</p>
     </div>
   </div>
-</div>
 
-  <!-- Audio -->
+  <!-- 💻 Bootup Screen -->
+  <div id="bootup" style="display:none;">
+    <div class="inner">
+      <h1>★ SYSTEM BOOTING ★</h1>
+      <p>Loading STARMIINK archives...</p>
+      <div class="loading-bar-container">
+        <div class="loading-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔊 Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
   <audio id="clickSound" src="click.mp3"></audio>
 
+  <!-- 📜 Script -->
   <script>
     const startBtn = document.getElementById("startBtn");
     const insertScreen = document.getElementById("insert-screen");
