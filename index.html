@@ -42,19 +42,26 @@
       cursor: pointer;
     }
 
-    #insert-screen, #bootup {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 1;
-      padding: 20px;
-    }
+   #insert-screen, #bootup {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  padding: 20px;
+}
+
+#insert-screen .inner,
+#bootup .inner {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 30px;
+  border-radius: 12px;
+}
+
 
     .logo-placeholder {
       width: 200px;
@@ -155,19 +162,23 @@
 
   <!-- Insert Coin Screen -->
   <div id="insert-screen">
+  <div class="inner">
     <img src="starmiink-3d.gif" alt="Spinning Logo" class="logo-placeholder" />
     <h1 class="arcade-start" id="startBtn">▶ READY PLAYER ONE</h1>
     <p class="tap-to-start">TAP TO START</p>
   </div>
+</div>
 
   <!-- Bootup Animation Screen -->
   <div id="bootup" style="display:none;">
+  <div class="inner">
     <h1>★ SYSTEM BOOTING ★</h1>
     <p>Loading STARMIINK archives...</p>
     <div class="loading-bar-container">
       <div class="loading-bar"></div>
     </div>
   </div>
+</div>
 
   <!-- Audio -->
   <audio id="bootSound" src="boot.mp3"></audio>
