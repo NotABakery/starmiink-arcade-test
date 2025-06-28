@@ -8,7 +8,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
@@ -102,6 +104,12 @@
       background: #34ffcc;
     }
 
+    .status {
+      margin-top: 15px;
+      font-size: 9px;
+      color: #ff6666;
+    }
+
     footer {
       background: #000;
       color: #34ffcc;
@@ -121,6 +129,11 @@
         max-height: 100vh;
       }
     }
+
+    a {
+      color: #00ffff;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -136,18 +149,22 @@
           <option value="about.html">📖 About</option>
           <option value="contact.html">📬 Contact</option>
           <option value="newsletter.html">📰 Newsletter</option>
+          <option value="minigame.html">🎮 Minigame</option>
         </select>
       </div>
 
       <h1>👤 Your Account</h1>
 
-      <form onsubmit="alert('Login submitted!'); return false;">
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+      <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">▶ Login</button>
+        <div class="status" id="statusText"></div>
       </form>
+
       <p style="margin-top: 15px; font-size: 9px;">
-        Don't have an account? <a href="signup.html" style="color: #00ffff; text-decoration: underline;">Sign Up</a>
+        Don't have an account?
+        <a href="signup.html">Sign Up</a>
       </p>
     </div>
   </div>
@@ -161,6 +178,30 @@
       const destination = select.value;
       if (destination) window.location.href = destination;
     }
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const statusText = document.getElementById("statusText");
+
+      const savedUser = localStorage.getItem("starmiink_user");
+      const savedPass = localStorage.getItem("starmiink_pass");
+
+      if (!savedUser || !savedPass) {
+        statusText.textContent = "⚠️ No account found. Please sign up first.";
+        return;
+      }
+
+      if (username === savedUser && password === savedPass) {
+        statusText.style.color = "#00ff88";
+        statusText.textContent = "✅ Login successful! Redirecting...";
+        setTimeout(() => window.location.href = "shop.html", 1500);
+      } else {
+        statusText.style.color = "#ff6666";
+        statusText.textContent = "❌ Invalid username or password.";
+      }
+    });
   </script>
 </body>
 </html>
