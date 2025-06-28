@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STARMIINK Sign Up</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -81,6 +81,12 @@
       color: #00ffff;
     }
 
+    .status {
+      margin-top: 15px;
+      font-size: 10px;
+      color: #ff6666;
+    }
+
     footer {
       margin-top: 50px;
       font-size: 10px;
@@ -104,11 +110,12 @@
 
   <h1>🔐 Sign Up</h1>
 
-  <form onsubmit="event.preventDefault(); alert('Signed up!');">
-    <input type="text" placeholder="Username" required />
-    <input type="email" placeholder="Email" required />
-    <input type="password" placeholder="Password" required />
+  <form id="signupForm">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
     <button type="submit">Create Account</button>
+    <div class="status" id="statusText"></div>
   </form>
 
   <footer>
@@ -120,6 +127,32 @@
       const destination = select.value;
       if (destination) window.location.href = destination;
     }
+
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const status = document.getElementById("statusText");
+
+      if (localStorage.getItem("starmiink_user")) {
+        status.style.color = "#ff6666";
+        status.textContent = "⚠️ Account already exists. Please log in.";
+        return;
+      }
+
+      localStorage.setItem("starmiink_user", username);
+      localStorage.setItem("starmiink_email", email);
+      localStorage.setItem("starmiink_pass", password);
+
+      status.style.color = "#00ff88";
+      status.textContent = "✅ Account created! Redirecting to login...";
+
+      setTimeout(() => {
+        window.location.href = "account.html";
+      }, 2000);
+    });
   </script>
 </body>
 </html>
