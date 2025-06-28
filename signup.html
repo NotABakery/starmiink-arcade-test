@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>STARMIINK Sign Up</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -81,16 +81,24 @@
       color: #00ffff;
     }
 
-    .status {
-      margin-top: 15px;
-      font-size: 10px;
-      color: #ff6666;
-    }
-
     footer {
       margin-top: 50px;
       font-size: 10px;
       color: #34ffcc;
+    }
+
+    .error-message {
+      color: #ff4444;
+      font-size: 10px;
+      margin-top: -8px;
+      margin-bottom: 10px;
+      height: 14px;
+    }
+
+    .success-message {
+      color: #34ffcc;
+      font-size: 10px;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -112,11 +120,18 @@
 
   <form id="signupForm">
     <input type="text" id="username" placeholder="Username" required />
+    <div id="usernameError" class="error-message"></div>
+
     <input type="email" id="email" placeholder="Email" required />
-    <input type="password" id="password" placeholder="Password" required />
+    <div id="emailError" class="error-message"></div>
+
+    <input type="password" id="password" placeholder="Password" required minlength="6" />
+    <div id="passwordError" class="error-message"></div>
+
     <button type="submit">Create Account</button>
-    <div class="status" id="statusText"></div>
   </form>
+
+  <div id="successMessage" class="success-message"></div>
 
   <footer>
     © 2025 <strong>STARMIINK™</strong> · All Rights Reserved
@@ -128,29 +143,79 @@
       if (destination) window.location.href = destination;
     }
 
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
+    const signupForm = document.getElementById('signupForm');
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    const usernameError = document.getElementById('usernameError');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const successMessage = document.getElementById('successMessage');
+
+    function clearErrors() {
+      usernameError.textContent = '';
+      emailError.textContent = '';
+      passwordError.textContent = '';
+      successMessage.textContent = '';
+    }
+
+    function validateEmail(email) {
+      // Simple email regex
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    signupForm.addEventListener('submit', e => {
       e.preventDefault();
+      clearErrors();
 
-      const username = document.getElementById("username").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const status = document.getElementById("statusText");
+      const username = usernameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
 
-      if (localStorage.getItem("starmiink_user")) {
-        status.style.color = "#ff6666";
-        status.textContent = "⚠️ Account already exists. Please log in.";
+      let valid = true;
+
+      if (username.length < 3) {
+        usernameError.textContent = 'Username must be at least 3 characters.';
+        valid = false;
+      }
+
+      if (!validateEmail(email)) {
+        emailError.textContent = 'Please enter a valid email.';
+        valid = false;
+      }
+
+      if (password.length < 6) {
+        passwordError.textContent = 'Password must be at least 6 characters.';
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // Check if user already exists
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+
+      if (users[username]) {
+        usernameError.textContent = 'Username already taken.';
         return;
       }
 
-      localStorage.setItem("starmiink_user", username);
-      localStorage.setItem("starmiink_email", email);
-      localStorage.setItem("starmiink_pass", password);
+      // Save new user
+      users[username] = {
+        email,
+        password,  // WARNING: storing password in localStorage in plain text is insecure! Use only for demo/testing
+      };
 
-      status.style.color = "#00ff88";
-      status.textContent = "✅ Account created! Redirecting to login...";
+      localStorage.setItem('users', JSON.stringify(users));
 
+      successMessage.textContent = 'Account created! Redirecting to login...';
+
+      // Clear form
+      signupForm.reset();
+
+      // Redirect after short delay
       setTimeout(() => {
-        window.location.href = "account.html";
+        window.location.href = 'account.html';
       }, 2000);
     });
   </script>
