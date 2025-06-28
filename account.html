@@ -7,14 +7,9 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      margin: 0;
       background: #000;
       font-family: 'Press Start 2P', monospace;
       color: #00ffff;
@@ -28,7 +23,6 @@
     .border-container {
       position: relative;
       width: 100vw;
-      flex-grow: 1;
       max-width: 1920px;
       max-height: 1080px;
       background: url('arcade-border.png') no-repeat center center;
@@ -39,12 +33,12 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      flex-grow: 1;
     }
 
     .content {
       width: 100%;
       max-width: 600px;
-      margin: 0 auto;
       text-align: center;
       font-size: 10px;
     }
@@ -57,16 +51,16 @@
     }
 
     .menu-bar select {
-      font-family: 'Press Start 2P', monospace;
       background: #000;
       color: #00ffff;
       border: 2px solid #00ffff;
       padding: 5px;
       font-size: 10px;
+      font-family: 'Press Start 2P', monospace;
     }
 
     h1 {
-      margin-top: 80px;
+      margin-top: 40px;
       margin-bottom: 20px;
       font-size: 16px;
     }
@@ -104,10 +98,15 @@
       background: #34ffcc;
     }
 
-    .status {
-      margin-top: 15px;
-      font-size: 9px;
-      color: #ff6666;
+    .welcome {
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    .logout {
+      background: #ff0055;
+      color: #fff;
+      margin-top: 20px;
     }
 
     footer {
@@ -129,11 +128,6 @@
         max-height: 100vh;
       }
     }
-
-    a {
-      color: #00ffff;
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
@@ -149,23 +143,12 @@
           <option value="about.html">📖 About</option>
           <option value="contact.html">📬 Contact</option>
           <option value="newsletter.html">📰 Newsletter</option>
-          <option value="minigame.html">🎮 Minigame</option>
         </select>
       </div>
 
-      <h1>👤 Your Account</h1>
-
-      <form id="loginForm">
-        <input type="text" id="username" placeholder="Username" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button type="submit">▶ Login</button>
-        <div class="status" id="statusText"></div>
-      </form>
-
-      <p style="margin-top: 15px; font-size: 9px;">
-        Don't have an account?
-        <a href="signup.html">Sign Up</a>
-      </p>
+      <div id="auth-area">
+        <!-- Login form will be shown here -->
+      </div>
     </div>
   </div>
 
@@ -179,29 +162,58 @@
       if (destination) window.location.href = destination;
     }
 
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const statusText = document.getElementById("statusText");
+    // Basic Frontend Login Logic
+    const authArea = document.getElementById('auth-area');
+    const user = localStorage.getItem('starmiinkUser');
 
-      const savedUser = localStorage.getItem("starmiink_user");
-      const savedPass = localStorage.getItem("starmiink_pass");
+    function showLoggedIn(username) {
+      authArea.innerHTML = `
+        <h1>👤 Welcome, ${username}</h1>
+        <p class="welcome">You're logged in!</p>
+        <button class="logout" onclick="logout()">Logout</button>
+      `;
+    }
 
-      if (!savedUser || !savedPass) {
-        statusText.textContent = "⚠️ No account found. Please sign up first.";
-        return;
-      }
+    function showLoginForm() {
+      authArea.innerHTML = `
+        <h1>👤 Your Account</h1>
+        <form onsubmit="login(event)">
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+        <p style="margin-top: 15px; font-size: 9px;">
+          Don't have an account?
+          <a href="signup.html" style="color: #00ffff; text-decoration: underline;">Sign Up</a>
+        </p>
+      `;
+    }
 
-      if (username === savedUser && password === savedPass) {
-        statusText.style.color = "#00ff88";
-        statusText.textContent = "✅ Login successful! Redirecting...";
-        setTimeout(() => window.location.href = "shop.html", 1500);
+    function login(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      // For testing: Accept anything as valid
+      if (username && password) {
+        localStorage.setItem('starmiinkUser', username);
+        showLoggedIn(username);
       } else {
-        statusText.style.color = "#ff6666";
-        statusText.textContent = "❌ Invalid username or password.";
+        alert("Invalid login");
       }
-    });
+    }
+
+    function logout() {
+      localStorage.removeItem('starmiinkUser');
+      showLoginForm();
+    }
+
+    // Init
+    if (user) {
+      showLoggedIn(user);
+    } else {
+      showLoginForm();
+    }
   </script>
 </body>
 </html>
